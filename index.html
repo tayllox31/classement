@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Classement de la communauté</title>
+<meta name="description" content="Classement XP, clans et champions du mois du serveur Discord.">
+<style>
+:root{
+  --bg:#0e1020; --panel:#171a30; --panel2:#1f2340; --line:#2b3058; --text:#eceeff; --muted:#9aa0cf;
+  --accent:#7c6cff; --gold:#f5c542; --silver:#c7ccdd; --bronze:#d9884a;
+}
+@media (prefers-color-scheme: light){
+  :root{--bg:#f3f4fb;--panel:#ffffff;--panel2:#eef0fb;--line:#d9dcf0;--text:#1a1c35;--muted:#5d6290;--accent:#5b4cf0}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 48px}
+header{padding:36px 0 20px}
+h1{margin:0;font-size:clamp(1.6rem,5vw,2.3rem);letter-spacing:-.02em}
+.sub{color:var(--muted);margin-top:4px}
+.tabs{display:flex;gap:8px;margin:18px 0;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:9px 16px;border-radius:999px;cursor:pointer;font:inherit}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.rank{width:32px;text-align:center;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.r1{color:var(--gold)}.r2{color:var(--silver)}.r3{color:var(--bronze)}
+.av{width:40px;height:40px;border-radius:50%;background:var(--panel2);flex:none;object-fit:cover}
+.who{flex:1;min-width:0}
+.name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.meta{color:var(--muted);font-size:.85rem}
+.val{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.val small{display:block;color:var(--muted);font-weight:400;font-size:.78rem}
+.empty,.err{padding:28px 16px;text-align:center;color:var(--muted)}
+.foot{margin-top:22px;color:var(--muted);font-size:.82rem;text-align:center}
+.emoji{font-size:1.5rem;width:40px;text-align:center;flex:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title">Classement</h1>
+    <div class="sub" id="sub">Chargement…</div>
+  </header>
+  <div class="tabs" role="tablist" aria-label="Classements">
+    <button class="tab" role="tab" aria-selected="true" data-tab="xp">⭐ Niveaux</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="clans">⚔️ Clans</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="champions">🏆 Champions du mois</button>
+  </div>
+  <div class="card" id="list" role="tabpanel"></div>
+  <p class="foot" id="foot"></p>
+</div>
+<script>
+(function () {
+  var data = null, current = "xp";
+  var list = document.getElementById("list");
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function num(n) { return Number(n || 0).toLocaleString("fr-FR"); }
+  function avatar(url) {
+    var img = el("img", "av");
+    img.alt = "";
+    img.loading = "lazy";
+    if (typeof url === "string" && url.indexOf("https://cdn.discordapp.com/") === 0) img.src = url;
+    return img;
+  }
+  function rank(i) {
+    var r = el("div", "rank" + (i < 3 ? " r" + (i + 1) : ""), i < 3 ? ["🥇", "🥈", "🥉"][i] : String(i + 1));
+    return r;
+  }
+  function row(i, leading, name, meta, val, valSmall) {
+    var r = el("div", "row");
+    r.appendChild(rank(i));
+    r.appendChild(leading);
+    var who = el("div", "who");
+    who.appendChild(el("div", "name", name));
+    if (meta) who.appendChild(el("div", "meta", meta));
+    r.appendChild(who);
+    var v = el("div", "val", val);
+    if (valSmall) v.appendChild(el("small", "", valSmall));
+    r.appendChild(v);
+    return r;
+  }
+  function empty(msg) { list.appendChild(el("div", "empty", msg)); }
+
+  function render() {
+    list.textContent = "";
+    if (!data) return;
+    if (current === "xp") {
+      if (!data.xp.length) return empty("Personne dans le classement pour l'instant.");
+      data.xp.forEach(function (p, i) {
+        list.appendChild(row(i, avatar(p.avatar), p.name, "", "Niveau " + p.level, num(p.xp) + " XP"));
+      });
+    } else if (current === "clans") {
+      if (!data.clans.length) return empty("Aucun clan pour l'instant. Crée le premier avec /clan_creer !");
+      data.clans.forEach(function (c, i) {
+        var lead = el("div", "emoji", "⚔️");
+        list.appendChild(row(i, lead, c.name, c.members + " membre" + (c.members > 1 ? "s" : ""),
+          num(c.points) + " pts", num(c.week) + " pts cette semaine"));
+      });
+    } else {
+      if (!data.champions.length) return empty("Pas encore de champion ce mois-ci.");
+      data.champions.forEach(function (c, i) {
+        list.appendChild(row(i, avatar(c.avatar), c.name, c.emoji + " " + c.game, num(c.score) + " pts", ""));
+      });
+    }
+  }
+
+  document.querySelectorAll(".tab").forEach(function (b) {
+    b.addEventListener("click", function () {
+      current = b.dataset.tab;
+      document.querySelectorAll(".tab").forEach(function (t) {
+        t.setAttribute("aria-selected", t === b ? "true" : "false");
+      });
+      render();
+    });
+  });
+
+  fetch("data.json?t=" + Date.now(), { cache: "no-store" })
+    .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(function (d) {
+      data = { server: d.server || {}, xp: d.xp || [], clans: d.clans || [], champions: d.champions || [],
+               updated: d.updated, month: d.month };
+      document.getElementById("title").textContent = "Classement de " + (data.server.name || "la communauté");
+      document.getElementById("sub").textContent = num(data.server.members) + " membres";
+      if (data.updated) {
+        var when = new Date(data.updated);
+        document.getElementById("foot").textContent = "Mis à jour le " + when.toLocaleString("fr-FR") +
+          " · Tape /site_masquer sur Discord pour ne plus apparaître.";
+      }
+      render();
+    })
+    .catch(function () {
+      document.getElementById("sub").textContent = "";
+      list.appendChild(el("div", "err", "Le classement n'est pas encore disponible. Reviens dans quelques minutes."));
+    });
+})();
+</script>
+</body>
+</html>
