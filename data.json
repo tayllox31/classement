@@ -9,7 +9,7 @@
    "name": "tayllox31",
    "avatar": "https://cdn.discordapp.com/avatars/1064150361188880395/5d9f4b222e1f719e8e9dc2e665ee2c7f.png?size=128",
    "level": 13,
-   "xp": 878
+   "xp": 988
   },
   {
    "name": "Pierrate",
@@ -22,6 +22,12 @@
    "avatar": "https://cdn.discordapp.com/avatars/1058535336789147738/91a2e287eab17d6ee79c1ce95f47393a.png?size=128",
    "level": 9,
    "xp": 878
+  },
+  {
+   "name": "Démon",
+   "avatar": "https://cdn.discordapp.com/avatars/1392082445121355829/2be3233b0866eef60e7e0cb8523fe4ab.png?size=128",
+   "level": 1,
+   "xp": 10
   },
   {
    "name": "LaFriteDuChnord",
@@ -41,10 +47,10 @@
   {
    "game": "ARC Raiders",
    "emoji": "🤖",
-   "score": 1213,
+   "score": 1235,
    "name": "tayllox31",
    "avatar": "https://cdn.discordapp.com/avatars/1064150361188880395/5d9f4b222e1f719e8e9dc2e665ee2c7f.png?size=128"
   }
  ],
- "updated": "2026-10-22T11:33:07+02:00"
+ "updated": "2026-10-22T14:18:07+02:00"
 }
