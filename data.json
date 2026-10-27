@@ -52,5 +52,12 @@
    "avatar": "https://cdn.discordapp.com/avatars/1064150361188880395/5d9f4b222e1f719e8e9dc2e665ee2c7f.png?size=128"
   }
  ],
- "updated": "2026-10-27T15:09:35+01:00"
+ "war": {
+  "week": "2026-W44",
+  "min_points": 50,
+  "current": [],
+  "last": []
+ },
+ "jobs": [],
+ "updated": "2026-10-27T15:12:17+01:00"
 }
