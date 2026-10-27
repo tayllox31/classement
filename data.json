@@ -42,7 +42,14 @@
    "xp": 22
   }
  ],
- "clans": [],
+ "clans": [
+  {
+   "name": "Tayllox Familie",
+   "points": 0,
+   "members": 1,
+   "week": 0
+  }
+ ],
  "champions": [
   {
    "game": "ARC Raiders",
@@ -59,5 +66,5 @@
   "last": []
  },
  "jobs": [],
- "updated": "2026-10-28T00:43:06+01:00"
+ "updated": "2026-10-28T00:50:12+01:00"
 }
