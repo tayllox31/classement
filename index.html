@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Classement de la communauté</title>
-<meta name="description" content="Classement XP, clans et champions du mois du serveur Discord.">
+<meta name="description" content="Classement XP, clans, guerre des clans, métiers et champions du mois du serveur Discord.">
 <style>
 :root{
   --bg:#0e1020; --panel:#171a30; --panel2:#1f2340; --line:#2b3058; --text:#eceeff; --muted:#9aa0cf;
@@ -36,6 +36,7 @@ h1{margin:0;font-size:clamp(1.6rem,5vw,2.3rem);letter-spacing:-.02em}
 .val small{display:block;color:var(--muted);font-weight:400;font-size:.78rem}
 .empty,.err{padding:28px 16px;text-align:center;color:var(--muted)}
 .foot{margin-top:22px;color:var(--muted);font-size:.82rem;text-align:center}
+.sect{padding:10px 16px;background:var(--panel2);font-weight:600}
 .emoji{font-size:1.5rem;width:40px;text-align:center;flex:none}
 </style>
 </head>
@@ -49,6 +50,8 @@ h1{margin:0;font-size:clamp(1.6rem,5vw,2.3rem);letter-spacing:-.02em}
     <button class="tab" role="tab" aria-selected="true" data-tab="xp">⭐ Niveaux</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="clans">⚔️ Clans</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="champions">🏆 Champions du mois</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="war">🔥 Guerre des clans</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="jobs">🏭 Métiers</button>
   </div>
   <div class="card" id="list" role="tabpanel"></div>
   <p class="foot" id="foot"></p>
@@ -106,6 +109,26 @@ h1{margin:0;font-size:clamp(1.6rem,5vw,2.3rem);letter-spacing:-.02em}
         list.appendChild(row(i, lead, c.name, c.members + " membre" + (c.members > 1 ? "s" : ""),
           num(c.points) + " pts", num(c.week) + " pts cette semaine"));
       });
+    } else if (current === "war") {
+      var w = data.war;
+      if (!w.current.length && !w.last.length) return empty("Pas encore de points cette semaine : discutez et passez en vocal avec votre clan !");
+      list.appendChild(el("div", "meta sect", "Cette semaine (minimum " + num(w.min_points) + " pts pour être classé)"));
+      if (!w.current.length) empty("Aucun clan classé pour l'instant.");
+      w.current.forEach(function (c, i) {
+        list.appendChild(row(i, el("div", "emoji", "⚔️"), c.name, "", num(c.points) + " pts", ""));
+      });
+      if (w.last.length) {
+        list.appendChild(el("div", "meta sect", "Semaine dernière"));
+        w.last.forEach(function (c, i) {
+          list.appendChild(row(i, el("div", "emoji", "🏁"), c.name, "", num(c.points) + " pts", ""));
+        });
+      }
+    } else if (current === "jobs") {
+      if (!data.jobs.length) return empty("Personne n'a encore de métier : tape /metier sur Discord !");
+      data.jobs.forEach(function (p, i) {
+        list.appendChild(row(i, avatar(p.avatar), p.name, String(p.emoji || "") + " " + (p.job || ""),
+          "Niveau " + p.level, num(p.days) + " jour" + (p.days > 1 ? "s" : "") + " travaillé" + (p.days > 1 ? "s" : "")));
+      });
     } else {
       if (!data.champions.length) return empty("Pas encore de champion ce mois-ci.");
       data.champions.forEach(function (c, i) {
@@ -128,7 +151,9 @@ h1{margin:0;font-size:clamp(1.6rem,5vw,2.3rem);letter-spacing:-.02em}
     .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
     .then(function (d) {
       data = { server: d.server || {}, xp: d.xp || [], clans: d.clans || [], champions: d.champions || [],
+               war: { week: "", min_points: 0, current: [], last: [] }, jobs: d.jobs || [],
                updated: d.updated, month: d.month };
+      if (d.war) data.war = { min_points: d.war.min_points || 0, current: d.war.current || [], last: d.war.last || [] };
       document.getElementById("title").textContent = "Classement de " + (data.server.name || "la communauté");
       document.getElementById("sub").textContent = num(data.server.members) + " membres";
       if (data.updated) {
