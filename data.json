@@ -36,6 +36,12 @@
    "xp": 53
   },
   {
+   "name": "𝓐𝓭é𝓺𝓾𝓪𝓽𝓮",
+   "avatar": "https://cdn.discordapp.com/avatars/1142928196203991040/3c744e2b855343c3c4b3d1e5271eecd9.png?size=128",
+   "level": 0,
+   "xp": 23
+  },
+  {
    "name": "ZblarS",
    "avatar": "https://cdn.discordapp.com/avatars/223189937573462017/12d98a7ca8809e0d1902b0824f890d72.png?size=128",
    "level": 0,
@@ -66,5 +72,5 @@
   "last": []
  },
  "jobs": [],
- "updated": "2026-10-29T00:07:52+01:00"
+ "updated": "2026-10-30T16:52:52+01:00"
 }
