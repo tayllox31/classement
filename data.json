@@ -3,7 +3,7 @@
   "name": "Tayllox",
   "members": 11
  },
- "month": "2026-10",
+ "month": "2026-11",
  "xp": [
   {
    "name": "tayllox31",
@@ -56,15 +56,7 @@
    "week": 2
   }
  ],
- "champions": [
-  {
-   "game": "ARC Raiders",
-   "emoji": "🤖",
-   "score": 2753,
-   "name": "tayllox31",
-   "avatar": "https://cdn.discordapp.com/avatars/1064150361188880395/5d9f4b222e1f719e8e9dc2e665ee2c7f.png?size=128"
-  }
- ],
+ "champions": [],
  "war": {
   "week": "2026-W44",
   "min_points": 50,
@@ -72,5 +64,5 @@
   "last": []
  },
  "jobs": [],
- "updated": "2026-10-31T22:24:09+01:00"
+ "updated": "2026-11-01T00:09:09+01:00"
 }
