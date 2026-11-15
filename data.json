@@ -9,7 +9,7 @@
    "name": "tayllox31",
    "avatar": "https://cdn.discordapp.com/avatars/1064150361188880395/5d9f4b222e1f719e8e9dc2e665ee2c7f.png?size=128",
    "level": 19,
-   "xp": 28
+   "xp": 162
   },
   {
    "name": "Pierrate",
@@ -51,9 +51,9 @@
  "clans": [
   {
    "name": "Tayllox Familie",
-   "points": 4,
+   "points": 7,
    "members": 1,
-   "week": 2
+   "week": 5
   }
  ],
  "champions": [],
@@ -64,5 +64,5 @@
   "last": []
  },
  "jobs": [],
- "updated": "2026-11-15T10:59:26+01:00"
+ "updated": "2026-11-15T11:14:26+01:00"
 }
