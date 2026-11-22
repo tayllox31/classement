@@ -53,16 +53,16 @@
    "name": "Tayllox Familie",
    "points": 8,
    "members": 1,
-   "week": 1
+   "week": 0
   }
  ],
  "champions": [],
  "war": {
-  "week": "2026-W47",
+  "week": "2026-W48",
   "min_points": 50,
   "current": [],
   "last": []
  },
  "jobs": [],
- "updated": "2026-11-22T11:14:26+01:00"
+ "updated": "2026-11-23T00:14:26+01:00"
 }
